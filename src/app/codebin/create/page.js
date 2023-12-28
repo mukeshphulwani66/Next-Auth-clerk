@@ -1,5 +1,6 @@
 "use client"
 import CodeEditorArea from "@/components/CodeEditorArea"
+import { redirect } from "next/navigation"
 import { useState } from "react"
 
 function CreateCodeSanp() {
@@ -15,7 +16,7 @@ function CreateCodeSanp() {
             },
             body:JSON.stringify(formData)
         })
-      const result = res.json()
+      const result = await res.json()
       console.log("RESULT:",result) 
     }
 

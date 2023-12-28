@@ -5,11 +5,7 @@ import { TrashIcon } from '@heroicons/react/24/outline'
 export default async function Home() {
   const codeBins = await prisma.codeBin.findMany()
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="p-2 flex justify-between">
-        <h2 className="text-2xl font-extrabold">CodeBin{"</>"}</h2>
-        <Link href="/codebin/create" className="text-xl text-blue-600 font-bold">+ Add Bin</Link>
-      </div>
+    <div className="mt-3">
       {codeBins.length === 0 && <h1 className="text-2xl font-bold mb-4">No bins available</h1>}
       {codeBins.map(item => {
         return (
