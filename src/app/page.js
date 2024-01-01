@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { prisma } from "../../prisma/client"
 import { TrashIcon } from '@heroicons/react/24/outline'
+import { deleteBinAction } from "./actions"
 
 export default async function Home() {
   const codeBins = await prisma.codeBin.findMany()
@@ -17,7 +18,7 @@ export default async function Home() {
               className="text-lg font-semibold"
             >{item.title}
             </Link>
-            <form>
+            <form action={deleteBinAction.bind(null,item.id)}>
               <button
                 type="submit"
                 className="hover:cursor-pointer">

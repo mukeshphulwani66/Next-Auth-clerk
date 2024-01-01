@@ -1,40 +1,23 @@
 "use client"
+
 import CodeEditorArea from "@/components/CodeEditorArea"
-import { redirect } from "next/navigation"
-import { useState } from "react"
+import { prisma } from "../../../../prisma/client"
+import { handleSubmitAction } from "@/app/actions"
+import { useFormState } from 'react-dom'
+import SubmitBtn from "@/components/SubmitBtn"
+
 
 function CreateCodeSanp() {
-    const [formData,setFormData] = useState({title:"",code:""})
+    const [state, formAction] = useFormState(handleSubmitAction, {message:""});
 
-   async function handleSubmit(e){
-        e.preventDefault()
-        console.log(formData)
-       const res = await fetch("/api/createbin",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify(formData)
-        })
-      const result = await res.json()
-      console.log("RESULT:",result) 
-    }
-
-    function handleChange(e){
-        setFormData(prevForm=>{
-            return {
-                ...prevForm,
-                [e.target.name]:e.target.value
-            }
-        })
-    }
-    
     return (
         <div className="w-full max-w-screen-md mt-10 mx-auto">
             <form 
              className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-             onSubmit={handleSubmit} 
+             //onSubmit={handleSubmit} 
+             action={formAction}
              >
+                {state.message && <p className="text-rose-600 text-2xl p-2 mb-2 bg-red-100 rounded">{state.message}</p>}
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" >
                         Title
@@ -44,8 +27,7 @@ function CreateCodeSanp() {
                         type="text"
                         placeholder="Enter title"
                         name="title"
-                        value={formData.title}
-                        onChange={handleChange}
+                  
                     />
                 </div>
                 <div className="mb-6">
@@ -55,18 +37,12 @@ function CreateCodeSanp() {
                     <CodeEditorArea  
                        placeholder="Write code here"
                        name="code" 
-                       onChange={handleChange}
-                       value={formData.code}
+                
                    />
                    
                 </div>
                 <div className="flex items-center justify-between">
-                    <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        type="submit"
-                    >
-                        Submit
-                    </button>
+                   <SubmitBtn />
                 </div>
             </form>
         </div>
