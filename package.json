@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.29.1",
     "@heroicons/react": "^2.1.1",
     "@prisma/client": "^5.7.1",
     "@uiw/react-textarea-code-editor": "^3.0.2",

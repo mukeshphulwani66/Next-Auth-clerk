@@ -14,4 +14,5 @@ model CodeBin{
   id Int @id @default(autoincrement())
   title String
   code String
+  userId String
 }

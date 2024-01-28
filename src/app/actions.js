@@ -2,12 +2,15 @@
 
 import { redirect } from "next/navigation"
 import { prisma } from "../../prisma/client"
+import { currentUser } from "@clerk/nextjs";
 
 export async function handleSubmitAction(currentState, formData) {
     try {
+        const user = await currentUser();
         const title = formData.get("title")
         const code = formData.get("code")
 
+        if (!user) throw new Error("you must be signed in to create an bin");
         if (!title || !code) {
             return {
                 message: "Title and Code are required"
@@ -16,7 +19,8 @@ export async function handleSubmitAction(currentState, formData) {
         const savedcodeBin = await prisma.codeBin.create({
             data: {
                 title: title,
-                code: code
+                code: code,
+                userId:user.id
             }
         })
         console.log(savedcodeBin)
@@ -24,7 +28,7 @@ export async function handleSubmitAction(currentState, formData) {
     }catch(err){
         console.log(err)
         return {
-            message: "something went wrong!"
+            message: err.message || "something went wrong!"
         }
     }
 
